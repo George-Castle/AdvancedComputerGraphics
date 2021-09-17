@@ -1,0 +1,27 @@
+# Makefile template for shared library
+CXX = cl.exe # C++ compiler
+LINK = link.exe # Linker
+CFLAGS = /O2 /std:c++11 # C flags
+RM = del  # rm command
+
+TARGET_LIB  = PNM.dll # target lib
+TARGET_MAIN = ag_cw1.exe
+
+SRCS = PNM.c # source files
+MAIN_SRCS = main.cpp
+
+.PHONY: all
+all: $(TARGET_MAIN)
+
+python: $(TARGET_LIB)
+
+$(TARGET_LIB): $(SRCS)
+	$(CXX) $(CFLAGS) /LD $(SRCS)
+
+$(TARGET_MAIN): $(MAIN_OBJS)
+	$(CXX) $(CFLAGS) $(MAIN_SRCS) $(SRCS) /c /link /out:$@
+
+
+.PHONY: clean
+clean:
+	-$(RM) $(TARGET_LIB) $(TARGET_MAIN) $(TARGET_LIB:.dll=.obj) $(TARGET_MAIN:.exe=.obj) $(MAIN_SRCS:.cpp=.obj) *~ *.pyc
